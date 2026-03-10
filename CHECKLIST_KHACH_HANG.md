@@ -44,7 +44,7 @@
 - [ ] Nguyên nhân (nếu biết)
 - [ ] Cách xử lý chi tiết theo từng bước (A, B, C...)
 - [ ] Công cụ cần thiết
-- [ ] Thờigian xử lý ước tính
+- [ ] Thời gian xử lý ước tính
 - [ ] Mức độ nghiêm trọng (Critical/High/Medium/Low)
 
 **Mẫu chi tiết:**
@@ -68,10 +68,16 @@ Bước 2: Kiểm tra kết nối (3 phút)
   E. Kiểm tra terminal
 
 Công cụ cần thiết: Đồng hồ vạn năng, tua vít
-Thờigian xử lý: 15-20 phút
+Thời gian xử lý: 15-20 phút
 ```
 
-### 1.4 File Excel tổng hợp
+### 1.4 Yêu cầu đa ngôn ngữ
+- [ ] Xác nhận ngôn ngữ chính của dữ liệu lỗi (Tiếng Việt / Tiếng Anh / Tiếng Nhật)
+- [ ] Xác nhận ngôn ngữ giao diện mong muốn (VI / EN / JP)
+- [ ] Manual máy móc bằng ngôn ngữ nào? (để AI xử lý đúng ngôn ngữ)
+- [ ] Kỹ thuật viên sử dụng ngôn ngữ nào khi tra cứu?
+
+### 1.5 File Excel tổng hợp
 - [ ] Tạo file Excel theo mẫu đính kèm
 - [ ] Sheet 1: Danh sách máy
 - [ ] Sheet 2: Danh sách lỗi
@@ -83,35 +89,35 @@ Thờigian xử lý: 15-20 phút
 
 ## PHẦN 2: NHÂN SỰ (Tối ưu cho team nhỏ)
 
-### 2.1 Team kỹ thuật tối thiểu (1-2 ngườ)
+### 2.1 Team kỹ thuật tối thiểu (1-2 người)
 
-**Phương án 1: 1 ngườ (All-in-one)**
+**Phương án 1: 1 người (All-in-one)**
 - [ ] **Kỹ sư/kỹ thuật viên** - Vừa quản lý hệ thống, vừa nhập dữ liệu, vừa sử dụng
   - Quyền: Admin + Engineer + Operator
   - Nhiệm vụ: Cài đặt, nhập dữ liệu, sử dụng, báo cáo
 
-**Phương án 2: 2 ngườ (Khuyến nghị)**
-- [ ] **Ngườiquản lý hệ thống** - IT/Engineer (0.5-1 ngườ)
+**Phương án 2: 2 người (Khuyến nghị)**
+- [ ] **Người quản lý hệ thống** - IT/Engineer (0.5-1 người)
   - Cài đặt và cấu hình ban đầu
   - Quản lý server và backup
-  - Training ngườidùng
+  - Training người dùng
   - Cập nhật dữ liệu lỗi mới
   
-- [ ] **Ngườisử dụng chính** - Operator/Technician (1 ngườ)
+- [ ] **Người sử dụng chính** - Operator/Technician (1 người)
   - Sử dụng hệ thống hàng ngày
   - Nhập feedback sau sửa chữa
   - Báo cáo lỗi hệ thống
 
 ### 2.2 Phân quyền đơn giản (2 cấp)
-| Vai trò | Ngườidùng | Quyền hạn |
+| Vai trò | Người dùng | Quyền hạn |
 |---------|-----------|-----------|
-| **Admin** | 1 ngườ (IT/Engineer) | Toàn quyền: cài đặt, nhập dữ liệu, sử dụng, báo cáo |
-| **User** | 1+ ngườ (Operator) | Xem lỗi, áp dụng giải pháp, feedback |
+| **Admin** | 1 người (IT/Engineer) | Toàn quyền: cài đặt, nhập dữ liệu, sử dụng, báo cáo |
+| **User** | 1+ người (Operator) | Xem lỗi, áp dụng giải pháp, feedback |
 
 **Lưu ý:**
-- Team nhỏ 1-2 ngườ vẫn vận hành tốt hệ thống
+- Team nhỏ 1-2 người vẫn vận hành tốt hệ thống
 - Không cần IT chuyên sâu, engineer có thể tự quản lý
-- Có thể mở rộng thêm ngườisau khi hệ thống ổn định
+- Có thể mở rộng thêm người sau khi hệ thống ổn định
 
 ---
 
@@ -141,6 +147,12 @@ Thờigian xử lý: 15-20 phút
 - [ ] Máy tính bảng/điện thoại cho kỹ thuật viên (Phase 2)
 - [ ] Máy quét mã QR (optional)
 
+### 3.4 Backup & Bảo mật
+- [ ] Chính sách backup dữ liệu (tần suất, nơi lưu trữ)
+- [ ] Yêu cầu về bảo mật dữ liệu của công ty
+- [ ] Có cần tích hợp SSO/LDAP không? (nếu có, cung cấp thông tin)
+- [ ] Quy định về data privacy nội bộ
+
 ---
 
 ## PHẦN 4: TÀI LIỆU
@@ -161,25 +173,25 @@ Thờigian xử lý: 15-20 phút
 
 ## PHẦN 5: QUY TRÌNH TRIỂN KHAI
 
-### Giai đoạn 1: Chuẩn bị (Tuần 1)
+### Giai đoạn 1: Chuẩn bị
 - [ ] Họp kickoff
 - [ ] Thu thập dữ liệu lỗi
 - [ ] Chuẩn bị server
 - [ ] Xác định team dự án
 
-### Giai đoạn 2: Phát triển MVP (Tuần 2-5)
+### Giai đoạn 2: Phát triển MVP
 - [ ] Review UI/UX mockup
 - [ ] Import dữ liệu test
 - [ ] Test chức năng cơ bản
 - [ ] Training team kỹ thuật
 
-### Giai đoạn 3: Pilot (Tuần 6-8)
+### Giai đoạn 3: Pilot
 - [ ] Triển khai tại 1-2 tầng
 - [ ] Thu thập feedback
 - [ ] Điều chỉnh giải pháp
 - [ ] Training toàn bộ nhân viên
 
-### Giai đoạn 4: Go-live (Tuần 9-10)
+### Giai đoạn 4: Go-live
 - [ ] Triển khai toàn bộ nhà máy
 - [ ] Hỗ trợ vận hành
 - [ ] Bàn giao tài liệu
@@ -196,13 +208,13 @@ Thờigian xử lý: 15-20 phút
 
 ### 6.2 Về nhân sự
 - [ ] Sắp xếp nhân sự tham gia training
-- [ ] Chỉ định ngườiphụ trách dự án
+- [ ] Chỉ định người phụ trách dự án
 - [ ] Đảm bảo team sử dụng hệ thống đều đặn
 
-### 6.3 Về thờigian
+### 6.3 Về thời gian
 - [ ] Tham gia các buổi họp review
 - [ ] Phản hồi yêu cầu trong 24h
-- [ ] Dành thờigian test hệ thống
+- [ ] Dành thời gian test hệ thống
 
 ---
 
@@ -216,14 +228,14 @@ Thờigian xử lý: 15-20 phút
 - [ ] Xác nhận team dự án từ phía khách hàng
 
 ### Trong quá trình phát triển (Development)
-- [ ] Cung cấp dữ liệu lỗi (ít nhất 20-30 ca lỗi)
+- [ ] Cung cấp dữ liệu lỗi (ít nhất 20-30 ca lỗi, mỗi ca cần có: triệu chứng, bước xử lý chi tiết, kết quả)
 - [ ] Review và approve UI/UX design
-- [ ] Test chức trên môi trường staging
+- [ ] Test chức năng trên môi trường staging
 - [ ] Tham gia training sessions
 
 ### Trước khi go-live (Pre-launch)
 - [ ] Xác nhận dữ liệu production
-- [ ] Training toàn bộ ngườidùng
+- [ ] Training toàn bộ người dùng
 - [ ] Chuẩn bị kế hoạch rollback (nếu cần)
 - [ ] Xác nhận bảo trì sau triển khai
 
@@ -271,7 +283,7 @@ Thờigian xử lý: 15-20 phút
 
 ---
 
-**Ngườilập:** OpenCode Agent  
+**Người lập:** trieugia008@gmail.com  
 **Ngày lập:** 10/03/2026  
 **Phiên bản:** 1.0
 

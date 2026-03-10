@@ -70,12 +70,13 @@ Bước 8: AI học từ phản hồi để cải thiện lần sau
 | Thành phần | Công nghệ | Mục đích |
 |------------|-----------|----------|
 | **Frontend** | React + Next.js | Giao diện web |
-| **Backend** | Node.js + Express | API server |
+| **Backend** | Node.js / FastAPI | API server |
 | **Database** | PostgreSQL | Lưu trữ dữ liệu |
 | **Vector DB** | ChromaDB | Tìm kiếm tương đồng |
 | **AI/ML** | Python + RAG | Xử lý ngôn ngữ tự nhiên |
 | **LLM** | Ollama (Local) | Sinh giải pháp AI |
 | **Embeddings** | sentence-transformers | Chuyển text thành vector |
+| **Full-text Search** | PostgreSQL FTS | Tìm kiếm toàn văn |
 | **Cache** | Redis | Tăng tốc độ |
 | **Ngôn ngữ** | VI/EN/JP | Đa ngôn ngữ |
 
@@ -107,63 +108,64 @@ Bước 8: AI học từ phản hồi để cải thiện lần sau
 ## 4. Tính Năng Chính
 
 ### 4.1 Quản lý dữ liệu
-- [x] Import dữ liệu từ file Excel
-- [x] Quản lý theo cấu trúc: Tầng → Máy → Lỗi
-- [x] Lưu trữ giải pháp với checklist chi tiết
-- [x] Phân loại theo thiết bị và mức độ nghiêm trọng
+- Import dữ liệu từ file Excel
+- Quản lý theo cấu trúc: Tầng → Máy → Lỗi
+- Lưu trữ giải pháp với checklist chi tiết
+- Phân loại theo thiết bị và mức độ nghiêm trọng
 
 ### 4.2 AI & Machine Learning
-- [x] Tìm kiếm lỗi tương tự bằng Vector Search
-- [x] Đề xuất giải pháp tự động bằng LLM
-- [x] Học tập từ phản hồi của kỹ thuật viên
-- [x] Hỗ trợ đa ngôn ngữ (VI/EN/JP)
+- Tìm kiếm lỗi tương tự bằng Vector Search
+- Đề xuất giải pháp tự động bằng LLM
+- Hiển thị độ tin cậy (Confidence Score) cho mỗi đề xuất
+- Học tập từ phản hồi của kỹ thuật viên
+- Hỗ trợ đa ngôn ngữ (VI/EN/JP)
 
-### 4.3 Giao diện ngườidùng
-- [x] Chọn nhanh Tầng/Máy
-- [x] Hiển thị checklist từng bước (A, B, C...)
-- [x] Đánh dấu hoàn thành từng bước
-- [x] Đánh giá độ hiệu quả sau sửa chữa
+### 4.3 Giao diện người dùng
+- Chọn nhanh Tầng/Máy
+- Tìm kiếm toàn văn (Full-text Search)
+- Hiển thị checklist từng bước (A, B, C...)
+- Đánh dấu hoàn thành từng bước
+- Đánh giá độ hiệu quả sau sửa chữa
 
 ### 4.4 Báo cáo & Thống kê
-- [x] Thống kê tần suất lỗi
-- [x] Thờigian xử lý trung bình
-- [x] Hiệu quả của AI (tỷ lệ thành công)
-- [x] Xuất báo cáo Excel/PDF
+- Thống kê tần suất lỗi
+- Thời gian xử lý trung bình
+- Hiệu quả của AI (tỷ lệ thành công)
+- Xuất báo cáo Excel/PDF
 
 ---
 
 ## 5. Lợi Ích Dự Kiến
 
-| Chỉ số | Trước | Sau | Cải thiện |
-|--------|-------|-----|-----------|
-| Thờigian tìm giải pháp | 15-30 phút | 1-2 phút | **-90%** |
-| Tỷ lệ sửa đúng lần đầu | 60% | 85%+ | **+25%** |
-| Thờigian downtime | 2-4 giờ | 30-60 phút | **-75%** |
-| Chi phí đào tạo | Cao | Thấp | **-60%** |
+- Giảm đáng kể thời gian tìm kiếm giải pháp xử lý lỗi
+- Nâng cao tỷ lệ sửa chữa thành công ngay lần đầu
+- Giảm thời gian downtime máy móc
+- Giảm chi phí đào tạo kỹ thuật viên mới nhờ knowledge base tập trung
+- Tập trung hóa kiến thức xử lý lỗi, tránh phụ thuộc vào cá nhân
 
 ---
 
-## 6. Phân Phát Triển
+## 6. Kế Hoạch Phát Triển
 
-### Giai đoạn 1: MVP (4-6 tuần)
+### Giai đoạn 1: MVP
 - Database + API cơ bản
 - Web UI chọn Tầng/Máy/Xem lỗi
 - Import Excel
 - Setup Ollama LLM local
 
-### Giai đoạn 2: AI Integration (4-6 tuần)
+### Giai đoạn 2: AI Integration
 - RAG pipeline (Retrieval + Generation)
 - Vector search đa ngôn ngữ
 - Feedback collection
 - Multi-language UI
 
-### Giai đoạn 3: Advanced (4-6 tuần)
-- Mobile app
+### Giai đoạn 3: Advanced
+- Mobile app (React Native)
 - Real-time notifications
 - Analytics dashboard
 - Hybrid search
 
-### Giai đoạn 4: Enterprise (ongoing)
+### Giai đoạn 4: Enterprise
 - SSO integration
 - Offline mode
 - Custom model fine-tuning
@@ -184,7 +186,19 @@ Bước 8: AI học từ phản hồi để cải thiện lần sau
 
 ---
 
-## 8. Chi Phí Dự Kiến
+## 8. Yêu Cầu Hiệu Năng
+
+| Chỉ số | Mục tiêu | Ghi chú |
+|--------|----------|---------|
+| Tìm kiếm lỗi | < 500ms | Vector search + retrieval |
+| Phản hồi AI (LLM) | < 3s | Sinh giải pháp bằng LLM local |
+| Tải trang | < 2s | First contentful paint |
+| Người dùng đồng thời | 100+ | Cùng lúc trên hệ thống |
+| Uptime | 99.9% | Theo SLA |
+
+---
+
+## 9. Chi Phí Dự Kiến
 
 ### Chi phí một lần (Development)
 - Phát triển hệ thống: Theo báo giá dự án
@@ -202,27 +216,27 @@ Bước 8: AI học từ phản hồi để cải thiện lần sau
 
 ---
 
-## 9. Rủi Ro & Giải Pháp
+## 10. Rủi Ro & Giải Pháp
 
 | Rủi ro | Mức độ | Giải pháp |
 |--------|--------|-----------|
 | Thiếu dữ liệu train | Cao | Bắt đầu với rule-based, tích lũy dần |
-| Chất lượng data đầu vào | Trung bình | Validation + training ngườidùng |
+| Chất lượng data đầu vào | Trung bình | Validation + training người dùng |
 | Phần cứng không đủ mạnh | Trung bình | Tối ưu model hoặc nâng cấp RAM |
-| Ngườidùng không adopt | Trung bình | Training + gamification |
+| Người dùng không adopt | Trung bình | Training + gamification |
 
 ---
 
-## 10. Cam Kết & Bảo Hành
+## 11. Cam Kết & Bảo Hành
 
 - ✅ Bảo hành phần mềm: 12 tháng
 - ✅ Hỗ trợ kỹ thuật: Theo SLA
-- ✅ Training ngườidùng: Bao gồm trong dự án
+- ✅ Training người dùng: Bao gồm trong dự án
 - ✅ Documentation đầy đủ
 
 ---
 
-**Ngườilập:** OpenCode Agent  
+**Người lập:** trieugia008@gmail.com  
 **Ngày lập:** 10/03/2026
 
 ---
