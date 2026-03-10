@@ -81,21 +81,37 @@ Thờigian xử lý: 15-20 phút
 
 ---
 
-## PHẦN 2: NHÂN SỰ
+## PHẦN 2: NHÂN SỰ (Tối ưu cho team nhỏ)
 
-### 2.1 Team kỹ thuật
-- [ ] **IT Admin** - Quản lý hệ thống (1 ngườ)
-- [ ] **Kỹ sư bảo trì** - Cập nhật dữ liệu lỗi (2-3 ngườ)
-- [ ] **Kỹ thuật viên** - Ngườidùng cuối (5-10 ngườ pilot)
-- [ ] **Trưởng phân xưởng** - Phê duyệt và báo cáo (1 ngườ)
+### 2.1 Team kỹ thuật tối thiểu (1-2 ngườ)
 
-### 2.2 Phân quyền ngườidùng
-| Vai trò | Quyền hạn |
-|---------|-----------|
-| Admin | Toàn quyền hệ thống |
-| Engineer | Thêm/sửa lỗi và giải pháp |
-| Operator | Xem lỗi, áp dụng giải pháp, feedback |
-| Manager | Xem báo cáo, dashboard |
+**Phương án 1: 1 ngườ (All-in-one)**
+- [ ] **Kỹ sư/kỹ thuật viên** - Vừa quản lý hệ thống, vừa nhập dữ liệu, vừa sử dụng
+  - Quyền: Admin + Engineer + Operator
+  - Nhiệm vụ: Cài đặt, nhập dữ liệu, sử dụng, báo cáo
+
+**Phương án 2: 2 ngườ (Khuyến nghị)**
+- [ ] **Ngườiquản lý hệ thống** - IT/Engineer (0.5-1 ngườ)
+  - Cài đặt và cấu hình ban đầu
+  - Quản lý server và backup
+  - Training ngườidùng
+  - Cập nhật dữ liệu lỗi mới
+  
+- [ ] **Ngườisử dụng chính** - Operator/Technician (1 ngườ)
+  - Sử dụng hệ thống hàng ngày
+  - Nhập feedback sau sửa chữa
+  - Báo cáo lỗi hệ thống
+
+### 2.2 Phân quyền đơn giản (2 cấp)
+| Vai trò | Ngườidùng | Quyền hạn |
+|---------|-----------|-----------|
+| **Admin** | 1 ngườ (IT/Engineer) | Toàn quyền: cài đặt, nhập dữ liệu, sử dụng, báo cáo |
+| **User** | 1+ ngườ (Operator) | Xem lỗi, áp dụng giải pháp, feedback |
+
+**Lưu ý:**
+- Team nhỏ 1-2 ngườ vẫn vận hành tốt hệ thống
+- Không cần IT chuyên sâu, engineer có thể tự quản lý
+- Có thể mở rộng thêm ngườisau khi hệ thống ổn định
 
 ---
 
