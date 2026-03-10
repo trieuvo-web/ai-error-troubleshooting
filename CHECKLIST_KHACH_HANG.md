@@ -92,12 +92,10 @@ Hệ thống hỗ trợ đa ngôn ngữ (VI/EN/JP). Để cấu hình phù hợp
 > AI sử dụng **Multilingual NLP** nên kỹ thuật viên có thể tìm kiếm bằng bất kỳ ngôn ngữ nào được hỗ trợ, kể cả khi dữ liệu gốc ở ngôn ngữ khác.
 
 ### 1.5 File Excel tổng hợp
-- [ ] Tạo file Excel theo mẫu bên dưới (xem phần "Mẫu File Excel")
-- [ ] Sheet 1: Danh sách máy
-- [ ] Sheet 2: Danh sách lỗi
-- [ ] Sheet 3: Giải pháp xử lý
-
-> Chúng tôi sẽ cung cấp file Excel mẫu sẵn để khách hàng chỉ cần điền thông tin.
+- [ ] Cung cấp file Excel tổng hợp dữ liệu lỗi (theo cấu trúc các mục trên)
+  - Sheet 1: Danh sách máy (theo mẫu mục 1.2)
+  - Sheet 2: Danh sách lỗi (theo mẫu mục 1.3)
+  - Sheet 3: Giải pháp xử lý (theo mẫu mục 1.3)
 
 ---
 
@@ -236,46 +234,18 @@ Các tài liệu này sẽ được đưa vào Knowledge Base để AI có thêm
 
 ---
 
-## MẪU FILE EXCEL
+## BƯỚC TIẾP THEO
 
-Dưới đây là cấu trúc file Excel mà khách hàng cần chuẩn bị. Chúng tôi sẽ gửi file mẫu sẵn.
+Để bắt đầu dự án, vui lòng gửi cho chúng tôi:
 
-### Sheet 1: Danh sách máy
+1. **File Excel dữ liệu** — theo cấu trúc mục 1.1 ~ 1.3
+2. **Xác nhận cấu hình server** hoặc PC dùng để test
+3. **Tên người phụ trách** dự án từ phía khách hàng
 
-| Tầng | Tên máy | Model | Hãng sản xuất | Vị trí | Công suất |
-|------|---------|-------|---------------|--------|-----------|
-| 5 | VW-RH1 | PLC-S7-1500 | Siemens | Tầng 5, Dãy A | 7.5kW |
-| 5 | VW-RH2 | PLC-S7-1200 | Siemens | Tầng 5, Dãy B | 5.5kW |
-| 3 | VW-PG01 | FX5U | Mitsubishi | Tầng 3, Kho 1 | 3kW |
-
-### Sheet 2: Danh sách lỗi
-
-| Tầng | Tên máy | Mã lỗi | Tên lỗi | Mô tả triệu chứng | Mức độ |
-|------|---------|--------|---------|---------------------|--------|
-| 5 | VW-RH1 | ERR_INV_001 | Lỗi biến tần | Không khởi động, hiển thị E.OC | Critical |
-| 5 | VW-RH2 | ERR_MOT_002 | Lỗi động cơ | Quá nhiệt, tự ngắt | High |
-
-### Sheet 3: Giải pháp xử lý
-
-| Mã lỗi | Bước | Mô tả bước xử lý | Checklist kiểm tra | Lưu ý/Cảnh báo | Thời gian (phút) |
-|---------|------|-------------------|---------------------|-----------------|-------------------|
-| ERR_INV_001 | 1 | Kiểm tra nguồn điện | A. Đo điện áp 3 pha; B. Kiểm tra cầu chì | Ngắt nguồn trước | 5 |
-| ERR_INV_001 | 2 | Kiểm tra kết nối | C. Kiểm tra dây điều khiển | - | 3 |
-
----
-
-## LIÊN HỆ
-
-**Mọi thắc mắc vui lòng liên hệ:**
-- Email: trieugia008@gmail.com
-
-**Để bắt đầu dự án, vui lòng gửi:**
-1. File Excel dữ liệu theo mẫu trên
-2. Xác nhận cấu hình server hoặc PC test
-3. Tên người phụ trách dự án từ phía khách hàng
+**Liên hệ:** trieugia008@gmail.com
 
 ---
 
 **Người lập:** trieugia008@gmail.com  
 **Ngày lập:** 10/03/2026  
-**Phiên bản:** 1.1
+**Phiên bản:** 1.2
