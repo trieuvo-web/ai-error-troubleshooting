@@ -24,9 +24,11 @@ Xây dựng hệ thống AI thông minh giúp kỹ thuật viên/kỹ sư nhanh 
 Hệ thống AI sẽ:
 1. **Lưu trữ** thông tin lỗi theo cấu trúc: Tầng + Tên máy + Mã lỗi
 2. **Tìm kiếm thông minh** các ca lỗi tương tự trong lịch sử
-3. **Đề xuất** quy trình xử lý dựa trên AI/ML
+3. **Đề xuất** quy trình xử lý dựa trên RAG (Retrieval-Augmented Generation)
 4. **Học tập** từ phản hồi của kỹ thuật viên để cải thiện đề xuất
 5. **Giao diện trực quan** cho việc tra cứu nhanh
+6. **Đa ngôn ngữ** hỗ trợ Tiếng Việt, Tiếng Anh, Tiếng Nhật
+7. **Local deployment** chạy hoàn toàn on-premise, không phụ thuộc cloud API
 
 ---
 
@@ -304,29 +306,105 @@ interface ErrorEmbedding {
 | Mobile | React Native | Mobile app |
 | Backend | Node.js/FastAPI | API server |
 | Database | PostgreSQL | Primary data |
-| Vector DB | ChromaDB/Pinecone | Similarity search |
-| AI/ML | Python + scikit-learn/TensorFlow | ML models |
+| Vector DB | ChromaDB | Similarity search (Local) |
+| AI/ML | Python + RAG | Retrieval-Augmented Generation |
+| Embeddings | sentence-transformers | Text embeddings (Local) |
+| LLM | Ollama/Llama.cpp | Local LLM for RAG (JP/EN/VI) |
 | Cache | Redis | Session & cache |
-| Search | Elasticsearch | Full-text search |
+| Search | PostgreSQL FTS | Full-text search |
+| i18n | react-i18next | Multi-language (VI/EN/JP) |
 
-### 6.2 AI/ML Specifications
+### 6.2 AI/ML Specifications (RAG Architecture)
 
-#### 6.2.1 Similarity Algorithm
-- **Embedding Model:** sentence-transformers/all-MiniLM-L6-v2 (384 dims)
+#### 6.2.1 RAG (Retrieval-Augmented Generation)
+Thay vì train model từ đầu, hệ thống sử dụng RAG:
+
+**Retrieval Phase:**
+- **Embedding Model:** sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 (384 dims)
+  - Hỗ trợ đa ngôn ngữ: Tiếng Việt, Tiếng Anh, Tiếng Nhật
+- **Vector Database:** ChromaDB (local, không cần cloud)
 - **Similarity Metric:** Cosine similarity
-- **Threshold:** 0.75 (75% match để đề xuất)
-- **Fallback:** Keyword matching khi không có đủ data
+- **Top-K Retrieval:** Lấy 5 lỗi tương tự nhất
 
-#### 6.2.2 Learning Algorithm
+**Generation Phase:**
+- **Local LLM:** Ollama với model đa ngôn ngữ (VD: qwen2.5, llama3.1)
+- **Context Window:** 8K tokens
+- **Prompt Template:** RAG template với context từ retrieval
+- **Response Format:** Structured JSON với steps, warnings, tools
+
+**RAG Pipeline:**
+```
+User Query → Embed Query → Vector Search (Top 5) → 
+Build Context → Local LLM → Structured Solution → Display
+```
+
+#### 6.2.2 Multi-Language Support
+| Language | Code | Embedding Support | LLM Support |
+|----------|------|-------------------|-------------|
+| Tiếng Việt | vi | ✅ paraphrase-multilingual | ✅ qwen2.5, gemma |
+| English | en | ✅ all-MiniLM-L6-v2 | ✅ llama3.1, mistral |
+| 日本語 (Japanese) | jp | ✅ paraphrase-multilingual | ✅ qwen2.5, command-r |
+
+**Language Detection:** Tự động detect ngôn ngữ từ query
+
+#### 6.2.3 Learning Algorithm
 - **Feedback Loop:** Weighted rating dựa trên success rate
 - **Update Frequency:** Real-time với exponential moving average
-- **Cold Start:** Rule-based cho lỗi chưa có data
+- **Cold Start:** RAG với rule-based context cho lỗi chưa có data
 
-### 6.3 Performance Requirements
+### 6.3 Local Deployment Requirements
+
+Vì hệ thống chạy **local hoàn toàn** (không call API ra ngoài), cần đảm bảo:
+
+**Hardware Requirements:**
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| CPU | 4 cores | 8+ cores |
+| RAM | 8 GB | 16+ GB |
+| Disk | 50 GB SSD | 100+ GB SSD |
+| GPU | Optional | 8+ GB VRAM (for faster LLM) |
+
+**Software Stack (All Local):**
+```
+┌─────────────────────────────────────────────────────────┐
+│  Application Layer (Docker Compose)                     │
+├─────────────────────────────────────────────────────────┤
+│  Frontend (Next.js)        → Port 3000                  │
+│  Backend API (Node.js)     → Port 3001                  │
+│  AI Service (Python/FastAPI) → Port 3002               │
+├─────────────────────────────────────────────────────────┤
+│  AI/ML Layer (Local)                                    │
+├─────────────────────────────────────────────────────────┤
+│  Ollama (Local LLM)        → Port 11434                │
+│  ChromaDB (Vector DB)      → Port 8000                 │
+├─────────────────────────────────────────────────────────┤
+│  Data Layer (Local)                                     │
+├─────────────────────────────────────────────────────────┤
+│  PostgreSQL                → Port 5432                 │
+│  Redis                     → Port 6379                 │
+└─────────────────────────────────────────────────────────┘
+```
+
+**No External Dependencies:**
+- ❌ Không cần OpenAI API
+- ❌ Không cần Pinecone (dùng ChromaDB local)
+- ❌ Không cần cloud services
+- ✅ Tất cả chạy on-premise
+
+**Local LLM Options:**
+| Model | Size | Language | Use Case |
+|-------|------|----------|----------|
+| qwen2.5:7b | 7B | VI/EN/JP | Balanced |
+| gemma2:9b | 9B | EN/JP | High quality |
+| llama3.1:8b | 8B | EN | Fast response |
+| command-r | 35B | EN/JP | Best quality (needs GPU) |
+
+### 6.4 Performance Requirements
 
 | Metric | Target | Notes |
 |--------|--------|-------|
-| Search Response | < 500ms | Tìm lỗi tương tự |
+| Search Response | < 500ms | Vector search + retrieval |
+| LLM Response | < 3s | Local LLM generation |
 | Page Load | < 2s | First contentful paint |
 | Concurrent Users | 100+ | Cùng lúc |
 | Uptime | 99.9% | SLA |
@@ -339,11 +417,15 @@ interface ErrorEmbedding {
 - [ ] Database schema và API cơ bản
 - [ ] Web UI: Chọn tầng/máy → Xem lỗi → Xem giải pháp
 - [ ] Import dữ liệu từ Excel
-- [ ] Simple keyword search
+- [ ] Setup Local LLM (Ollama)
+- [ ] Basic RAG pipeline (retrieval only)
+- [ ] Multi-language UI framework (i18n setup)
 
 ### Phase 2: AI Integration (4-6 tuần)
-- [ ] Vector embeddings cho lỗi
-- [ ] Similarity search với AI
+- [ ] Vector embeddings đa ngôn ngữ (VI/EN/JP)
+- [ ] Full RAG pipeline (retrieval + generation)
+- [ ] Local LLM integration (Ollama/Llama.cpp)
+- [ ] Multi-language content (VI/EN/JP)
 - [ ] Feedback collection
 - [ ] Learning loop cơ bản
 
@@ -351,13 +433,13 @@ interface ErrorEmbedding {
 - [ ] Mobile app
 - [ ] Real-time notifications
 - [ ] Analytics dashboard
-- [ ] Multi-language support
+- [ ] Advanced RAG (hybrid search, reranking)
 
 ### Phase 4: Enterprise (Ongoing)
 - [ ] SSO integration
 - [ ] API cho third-party
-- [ ] Advanced ML models
 - [ ] Offline mode
+- [ ] Custom model fine-tuning (optional)
 
 ---
 
