@@ -359,10 +359,10 @@ Vì hệ thống chạy **local hoàn toàn** (không call API ra ngoài), cần
 **Hardware Requirements:**
 | Component | Minimum | Recommended |
 |-----------|---------|-------------|
-| CPU | 4 cores | 8+ cores |
-| RAM | 8 GB | 16+ GB |
-| Disk | 50 GB SSD | 100+ GB SSD |
-| GPU | Optional | 8+ GB VRAM (for faster LLM) |
+| CPU | 8 cores | 16+ cores |
+| RAM | 16 GB | 32+ GB |
+| Disk | 100 GB SSD | 200+ GB SSD |
+| GPU | Optional (CPU inference OK) | 8+ GB VRAM (5x faster LLM) |
 
 **Software Stack (All Local):**
 ```

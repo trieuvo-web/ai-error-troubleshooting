@@ -16,20 +16,21 @@
 - Kỹ thuật viên mới mất nhiều thời gian để tích lũy kinh nghiệm
 
 ### 1.2 Giải pháp đề xuất
-Xây dựng hệ thống phần mềm **chạy trên mạng nội bộ** (không cần internet), sử dụng AI để:
-- **Lưu trữ tập trung** toàn bộ kiến thức xử lý lỗi theo cấu trúc: **Tầng → Máy → Lỗi**
-- **Tìm kiếm thông minh** các ca lỗi tương tự đã xử lý trước đó
-- **Đề xuất tự động** quy trình sửa chữa với checklist từng bước (A, B, C...)
-- **Học tập & cải thiện** từ phản hồi của kỹ thuật viên sau mỗi lần sửa chữa
-- **Hỗ trợ đa ngôn ngữ:** Tiếng Việt, Tiếng Anh, Tiếng Nhật
+Xây dựng hệ thống phần mềm **chạy trên mạng nội bộ** (không cần internet), ứng dụng **AI Generative** và **Large Language Model (LLM)** để:
+- **Knowledge Base thông minh** — lưu trữ tập trung toàn bộ kiến thức xử lý lỗi theo cấu trúc: **Tầng → Máy → Lỗi**
+- **AI-powered Search** — tìm kiếm ngữ nghĩa (Semantic Search), hiểu ý kỹ thuật viên chứ không chỉ khớp từ khóa
+- **Tự động sinh giải pháp** bằng công nghệ **RAG (Retrieval-Augmented Generation)** — AI tổng hợp từ dữ liệu thực, không "bịa"
+- **Continuous Learning** — AI tự cải thiện từ phản hồi của kỹ thuật viên sau mỗi lần sửa chữa
+- **Multilingual AI** — hỗ trợ Tiếng Việt, Tiếng Anh, Tiếng Nhật
 
 ### 1.3 Điểm khác biệt
 | | Cách làm hiện tại | Với hệ thống AI |
 |---|---|---|
-| Tìm giải pháp | Tra tài liệu, hỏi đồng nghiệp | AI đề xuất ngay, kèm checklist |
-| Kiến thức | Phụ thuộc cá nhân | Tập trung, ai cũng truy cập được |
-| Kỹ thuật viên mới | Mất vài tháng làm quen | Có AI hỗ trợ ngay từ ngày đầu |
-| Chi phí vận hành | Không có phí recurring | Không cần trả phí API/cloud hàng tháng |
+| Tìm giải pháp | Tra tài liệu thủ công, hỏi đồng nghiệp | **AI Agent** đề xuất ngay, kèm checklist |
+| Kiến thức | Phụ thuộc cá nhân, dễ mất khi nghỉ việc | **Knowledge Base** tập trung, ai cũng truy cập |
+| Kỹ thuật viên mới | Mất vài tháng làm quen | **AI Copilot** hỗ trợ ngay từ ngày đầu |
+| Độ chính xác | Phụ thuộc kinh nghiệm | AI đề xuất dựa trên **Data-driven Insights** |
+| Chi phí vận hành | — | **On-premise AI** — không trả phí cloud hàng tháng |
 
 ---
 
@@ -55,25 +56,65 @@ Bước 8: AI ghi nhận phản hồi để cải thiện lần sau
 
 ---
 
-## 3. Phân Loại Lỗi Hỗ Trợ
+## 3. Cách Hoạt Động Của AI Trong Hệ Thống
 
-### 3.1 Theo thiết bị
-- Biến tần (Inverter)
-- PLC (Programmable Logic Controller)
-- Động cơ (Motor)
-- Cảm biến (Sensor)
-- Bơm (Pump)
-- Hệ thống điện
-- Hệ thống cơ khí
-- Và các thiết bị khác theo yêu cầu
+### 3.1 Semantic Search — AI hiểu ý, không chỉ khớp từ khóa
 
-### 3.2 Theo mức độ nghiêm trọng
-| Mức độ | Mô tả | Ví dụ |
-|--------|-------|-------|
-| Critical (Nghiêm trọng) | Dừng sản xuất, cần xử lý ngay | Lỗi biến tần, mất điện |
-| High (Cao) | Cần xử lý trong 1-2 giờ | Quá nhiệt, rung động bất thường |
-| Medium (Trung bình) | Xử lý trong ca làm việc | Cảnh báo bảo trì |
-| Low (Thấp) | Lên lịch bảo trì | Hiệu suất giảm nhẹ |
+Khác với tìm kiếm thông thường (phải gõ đúng từ khóa), hệ thống sử dụng **Semantic Search** (tìm kiếm ngữ nghĩa) — AI hiểu **ý nghĩa** của câu hỏi.
+
+Khi kỹ thuật viên mô tả lỗi đang gặp (VD: *"biến tần báo lỗi E.OC, máy không khởi động"*), hệ thống sẽ:
+
+1. **Chuyển mô tả thành Vector Embedding** — biến câu văn thành dạng toán học để AI hiểu ngữ nghĩa, không chỉ so khớp chữ
+2. **So sánh ngữ nghĩa với toàn bộ Knowledge Base** — tìm các ca lỗi có triệu chứng tương tự, kể cả khi mô tả khác từ ngữ
+3. **Xếp hạng bằng AI Ranking** — ưu tiên giải pháp có tỷ lệ thành công cao nhất
+
+> Ví dụ: Kỹ thuật viên nhập *"motor quá nhiệt tầng 5"* → AI hiểu ngữ nghĩa → tìm thấy 3 ca tương tự (kể cả ca ghi là "động cơ nóng bất thường") → đề xuất giải pháp tốt nhất kèm checklist.
+
+### 3.2 RAG (Retrieval-Augmented Generation) — AI sinh giải pháp từ dữ liệu thực
+
+Hệ thống sử dụng kiến trúc **RAG** — công nghệ đang được các tập đoàn lớn (Google, Microsoft, Meta) áp dụng rộng rãi. Nguyên lý hoạt động:
+
+```
+Câu hỏi kỹ thuật viên
+    ↓
+[Retrieval] Tìm các ca lỗi liên quan trong Knowledge Base
+    ↓
+[Augmented] Kết hợp dữ liệu tìm được làm ngữ cảnh
+    ↓
+[Generation] LLM sinh ra giải pháp có cấu trúc, dựa trên dữ liệu thực
+```
+
+Điểm khác biệt với ChatGPT thông thường:
+- **Không hallucination** (không "bịa"): mọi đề xuất đều dựa trên dữ liệu lỗi thực của nhà máy
+- Mỗi đề xuất kèm **Confidence Score** (VD: "92% phù hợp") — để kỹ thuật viên đánh giá độ tin cậy
+- Mỗi đề xuất kèm **nguồn gốc rõ ràng** — lấy từ ca lỗi nào, ai đã xử lý, kết quả ra sao
+- Kỹ thuật viên luôn là **Human-in-the-Loop** — AI chỉ hỗ trợ, con người quyết định cuối cùng
+
+### 3.3 Continuous Learning — AI thông minh hơn mỗi ngày
+
+Hệ thống được thiết kế theo mô hình **Feedback Loop** (vòng lặp cải tiến liên tục):
+
+```
+Kỹ thuật viên dùng giải pháp → Đánh giá kết quả → AI ghi nhận
+    ↓                                                    ↓
+Lần sau AI đề xuất chính xác hơn  ←  Cập nhật Knowledge Base
+```
+
+- **Reinforcement from Human Feedback** — AI học từ đánh giá thực tế của kỹ thuật viên
+- Giải pháp hiệu quả được **tăng thứ hạng**, giải pháp kém hiệu quả bị **giảm thứ hạng**
+- Ca lỗi mới được bổ sung tự động vào Knowledge Base
+
+> Nguyên tắc: **càng nhiều dữ liệu thực tế → AI càng chính xác**. Ngay cả khi bắt đầu với ít dữ liệu, hệ thống vẫn hoạt động tốt và sẽ thông minh hơn theo thời gian.
+
+### 3.4 On-Premise AI — Tại sao không dùng Cloud?
+
+| | AI Cloud (ChatGPT, Gemini...) | Hệ thống này (On-Premise AI) |
+|---|---|---|
+| **Data Privacy** | Dữ liệu gửi ra internet | Dữ liệu ở trong nhà máy, không ra ngoài |
+| **Chi phí** | Trả phí API hàng tháng | Không phát sinh phí recurring |
+| **Phụ thuộc** | Mất mạng = không dùng được | **Edge AI** — hoạt động bình thường khi mất mạng |
+| **Tùy chỉnh** | Khó fine-tune cho nghiệp vụ cụ thể | **Domain-specific AI** — tùy chỉnh hoàn toàn cho nhà máy |
+| **Tốc độ** | Phụ thuộc đường truyền | Xử lý ngay trên server nội bộ |
 
 ---
 
@@ -86,10 +127,10 @@ Bước 8: AI ghi nhận phản hồi để cải thiện lần sau
 - Phân loại theo thiết bị và mức độ nghiêm trọng
 
 ### 4.2 AI hỗ trợ xử lý lỗi
-- Tìm kiếm lỗi tương tự trong lịch sử
-- Đề xuất giải pháp kèm độ tin cậy (VD: "95% phù hợp")
-- Hỗ trợ tìm kiếm bằng Tiếng Việt, Tiếng Anh, Tiếng Nhật
-- Càng sử dụng, AI càng đề xuất chính xác hơn
+- **Semantic Search** — tìm lỗi tương tự theo ngữ nghĩa, không chỉ khớp từ khóa
+- **AI-generated Solutions** — đề xuất giải pháp kèm Confidence Score
+- **Multilingual NLP** — hỗ trợ tìm kiếm bằng Tiếng Việt, Tiếng Anh, Tiếng Nhật
+- **Self-improving AI** — càng sử dụng, AI càng đề xuất chính xác hơn
 
 ### 4.3 Giao diện sử dụng
 - Chọn nhanh Tầng/Máy bằng vài thao tác
@@ -117,21 +158,22 @@ Bước 8: AI ghi nhận phản hồi để cải thiện lần sau
 
 ## 6. Kế Hoạch Phát Triển
 
-### Giai đoạn 1: MVP (Sản phẩm cơ bản)
+### Giai đoạn 1: MVP — Knowledge Base + Basic AI
 - Hệ thống web tra cứu lỗi: Chọn Tầng → Máy → Xem lỗi → Xem giải pháp
 - Import dữ liệu từ Excel
-- Cài đặt AI trên server local
+- Triển khai On-Premise LLM trên server local
 
-### Giai đoạn 2: Tích hợp AI nâng cao
-- AI tìm kiếm lỗi tương tự và đề xuất giải pháp
-- Hỗ trợ đa ngôn ngữ (VI/EN/JP)
-- Thu thập phản hồi từ kỹ thuật viên
-- AI tự cải thiện dựa trên phản hồi
+### Giai đoạn 2: Full RAG Pipeline + Multilingual AI
+- Semantic Search + AI-generated Solutions
+- Multilingual NLP (VI/EN/JP)
+- Feedback Loop + Continuous Learning
+- AI Copilot cho kỹ thuật viên
 
-### Giai đoạn 3: Mở rộng
+### Giai đoạn 3: Mở rộng + Predictive
 - Ứng dụng mobile cho kỹ thuật viên
-- Thông báo lỗi real-time
-- Dashboard thống kê nâng cao
+- Real-time Alerting khi phát hiện lỗi
+- AI Analytics Dashboard
+- Predictive Maintenance (dự đoán lỗi trước khi xảy ra — roadmap)
 
 ---
 
@@ -141,17 +183,33 @@ Hệ thống chạy trên **server nội bộ** của công ty, không cần clo
 
 | Thành phần | Tối thiểu | Khuyến nghị |
 |------------|-----------|-------------|
-| CPU | 4 cores | 8+ cores |
-| RAM | 8 GB | 16+ GB |
-| Ổ cứng | 50 GB SSD | 100+ GB SSD |
-| GPU | Không bắt buộc | Có GPU sẽ nhanh hơn |
+| CPU | 8 cores | 16+ cores |
+| RAM | 16 GB | 32+ GB |
+| Ổ cứng | 100 GB SSD | 200+ GB SSD |
+| GPU | Không bắt buộc (AI vẫn chạy trên CPU) | 8+ GB VRAM (AI phản hồi nhanh hơn ~5 lần) |
 | Hệ điều hành | Linux/Windows/Mac | Ubuntu 22.04 LTS |
 
-**Lưu ý:** Giai đoạn đầu có thể dùng PC/laptop để demo và test trước khi triển khai lên server chính thức.
+**Lưu ý:** Giai đoạn đầu có thể dùng PC/laptop (16GB RAM) để demo và test trước khi triển khai lên server chính thức.
 
 ---
 
-## 8. Chi Phí
+## 8. Nền Tảng Công Nghệ
+
+Hệ thống được xây dựng trên các công nghệ AI tiên tiến, đều là **open-source** và được cộng đồng quốc tế tin dùng:
+
+| Thành phần | Công nghệ | Ứng dụng |
+|------------|-----------|----------|
+| **Generative AI** | Large Language Model (LLM) chạy local | Sinh giải pháp xử lý lỗi |
+| **RAG Engine** | Retrieval-Augmented Generation | Đảm bảo AI không hallucinate, dựa trên dữ liệu thực |
+| **NLP / Embeddings** | Multilingual Transformer Models | Hiểu ngữ nghĩa đa ngôn ngữ (VI/EN/JP) |
+| **Vector Database** | Semantic Search Engine | Tìm kiếm lỗi tương tự theo ngữ nghĩa |
+| **Knowledge Base** | Structured Data Store | Lưu trữ toàn bộ kiến thức xử lý lỗi |
+
+> Tất cả công nghệ trên đều **chạy on-premise**, không gửi dữ liệu ra bên ngoài, không phát sinh phí license.
+
+---
+
+## 9. Chi Phí
 
 ### Chi phí phát triển (một lần)
 - Phát triển hệ thống: Theo báo giá dự án
@@ -167,7 +225,7 @@ Hệ thống chạy trên **server nội bộ** của công ty, không cần clo
 
 ---
 
-## 9. Rủi Ro & Giải Pháp
+## 10. Rủi Ro & Giải Pháp
 
 | Rủi ro | Giải pháp |
 |--------|-----------|
@@ -177,7 +235,7 @@ Hệ thống chạy trên **server nội bộ** của công ty, không cần clo
 
 ---
 
-## 10. Hỗ Trợ Sau Triển Khai
+## 11. Hỗ Trợ Sau Triển Khai
 
 - Hỗ trợ kỹ thuật trong thời gian bảo hành (theo hợp đồng)
 - Hướng dẫn sử dụng cho người dùng
