@@ -1,0 +1,83 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm ci --production
+    
+    - name: Build
+      run: |
+        cd backend
+        npm run build
+    
+    # Add your deployment steps here
+    # - name: Deploy to production
+    #   run: |
+    #     # Your deployment commands
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm ci
+    
+    - name: Build
+      run: |
+        cd frontend
+        npm run build
+    
+    # Add your deployment steps here
+    # - name: Deploy to Vercel/Netlify
+    #   run: |
+    #     # Your deployment commands
+
+  deploy-ai-service:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Build Docker image
+      run: |
+        cd ai-service
+        docker build -t ai-error-troubleshooting-ai:${{ github.sha }} .
+    
+    # Add your deployment steps here
+    # - name: Push to registry
+    #   run: |
+    #     # Your deployment commands
