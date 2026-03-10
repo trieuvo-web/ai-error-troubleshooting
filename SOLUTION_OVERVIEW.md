@@ -2,8 +2,7 @@
 
 **Ngày:** 10/03/2026  
 **Khách hàng:** [Tên công ty]  
-**Dự án:** Hệ thống AI hỗ trợ xử lý lỗi thiết bị công nghiệp  
-**Đơn vị thực hiện:** trieugia008@gmail.com
+**Dự án:** Hệ thống AI hỗ trợ xử lý lỗi thiết bị công nghiệp
 
 ---
 
@@ -244,7 +243,6 @@ Hệ thống được xây dựng trên các công nghệ AI tiên tiến, đề
 
 ---
 
-**Người lập:** trieugia008@gmail.com  
 **Ngày lập:** 10/03/2026
 
 ---

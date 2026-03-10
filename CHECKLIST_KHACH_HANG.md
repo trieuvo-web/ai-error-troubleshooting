@@ -1,8 +1,7 @@
 # Danh Sách Công Việc Khách Hàng Cần Chuẩn Bị
 
 **Dự án:** Hệ thống AI hỗ trợ xử lý lỗi thiết bị công nghiệp  
-**Ngày:** 10/03/2026  
-**Đơn vị thực hiện:** trieugia008@gmail.com
+**Ngày:** 10/03/2026
 
 > Tài liệu này liệt kê những thông tin và điều kiện cần chuẩn bị từ phía khách hàng để dự án triển khai thuận lợi.
 > Chi tiết giải pháp xem tại: [SOLUTION_OVERVIEW.md](./SOLUTION_OVERVIEW.md)
@@ -242,10 +241,7 @@ Các tài liệu này sẽ được đưa vào Knowledge Base để AI có thêm
 2. **Xác nhận cấu hình server** hoặc PC dùng để test
 3. **Tên người phụ trách** dự án từ phía khách hàng
 
-**Liên hệ:** trieugia008@gmail.com
-
 ---
 
-**Người lập:** trieugia008@gmail.com  
 **Ngày lập:** 10/03/2026  
 **Phiên bản:** 1.2
