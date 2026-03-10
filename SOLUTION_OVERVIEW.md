@@ -1,238 +1,188 @@
-# Bản Sơ Bộ Giải Pháp AI Xử Lý Lỗi Công Nghiệp
+# Giải Pháp AI Hỗ Trợ Xử Lý Lỗi Thiết Bị Công Nghiệp
 
 **Ngày:** 10/03/2026  
 **Khách hàng:** [Tên công ty]  
-**Dự án:** Hệ thống AI hỗ trợ xử lý lỗi thiết bị công nghiệp
+**Dự án:** Hệ thống AI hỗ trợ xử lý lỗi thiết bị công nghiệp  
+**Đơn vị thực hiện:** trieugia008@gmail.com
 
 ---
 
-## 1. Tổng Quan Giải Pháp
+## 1. Bài Toán & Giải Pháp
 
-### 1.1 Mô tả hệ thống
-Hệ thống AI sử dụng kiến trúc **RAG (Retrieval-Augmented Generation)** kết hợp với **LLM chạy local** để:
-- Lưu trữ và quản lý dữ liệu lỗi theo cấu trúc: **Tầng → Máy → Lỗi**
-- Tìm kiếm thông minh các ca lỗi tương tự trong lịch sử
-- Đề xuất giải pháp sửa chữa tự động bằng AI
-- Học tập từ phản hồi của kỹ thuật viên để cải thiện đề xuất
-- Hỗ trợ **đa ngôn ngữ** (Tiếng Việt, Tiếng Anh, Tiếng Nhật)
+### 1.1 Vấn đề hiện tại
+- Khi máy gặp lỗi, kỹ thuật viên phải tìm kiếm thủ công trong tài liệu hoặc hỏi đồng nghiệp
+- Kiến thức xử lý lỗi phân tán, phụ thuộc vào kinh nghiệm cá nhân
+- Thời gian dừng máy (downtime) kéo dài do quá trình tìm giải pháp chậm
+- Kỹ thuật viên mới mất nhiều thời gian để tích lũy kinh nghiệm
 
-### 1.2 Kiến trúc hệ thống
+### 1.2 Giải pháp đề xuất
+Xây dựng hệ thống phần mềm **chạy trên mạng nội bộ** (không cần internet), sử dụng AI để:
+- **Lưu trữ tập trung** toàn bộ kiến thức xử lý lỗi theo cấu trúc: **Tầng → Máy → Lỗi**
+- **Tìm kiếm thông minh** các ca lỗi tương tự đã xử lý trước đó
+- **Đề xuất tự động** quy trình sửa chữa với checklist từng bước (A, B, C...)
+- **Học tập & cải thiện** từ phản hồi của kỹ thuật viên sau mỗi lần sửa chữa
+- **Hỗ trợ đa ngôn ngữ:** Tiếng Việt, Tiếng Anh, Tiếng Nhật
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  GIAO DIỆN NGƯỜI DÙNG (Web/Mobile)                          │
-│  • Chọn Tầng → Máy → Xem lỗi                                │
-│  • Hiển thị giải pháp AI với checklist A, B, C...          │
-│  • Đánh giá độ hiệu quả                                     │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│  AI ENGINE (Local - Không cần internet)                     │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │  ChromaDB    │→ │  RAG Pipeline│→ │  Ollama LLM  │      │
-│  │  (Vector DB) │  │  (Retrieve + │  │  (Generate   │      │
-│  │              │  │   Generate)  │  │   Solution)  │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│  DỮ LIỆU (Local)                                            │
-│  • PostgreSQL (Thông tin lỗi, máy, giải pháp)              │
-│  • Redis (Cache, Session)                                   │
-│  • File Excel (Import/Export)                               │
-└─────────────────────────────────────────────────────────────┘
-```
+### 1.3 Điểm khác biệt
+| | Cách làm hiện tại | Với hệ thống AI |
+|---|---|---|
+| Tìm giải pháp | Tra tài liệu, hỏi đồng nghiệp | AI đề xuất ngay, kèm checklist |
+| Kiến thức | Phụ thuộc cá nhân | Tập trung, ai cũng truy cập được |
+| Kỹ thuật viên mới | Mất vài tháng làm quen | Có AI hỗ trợ ngay từ ngày đầu |
+| Chi phí vận hành | Không có phí recurring | Không cần trả phí API/cloud hàng tháng |
 
-### 1.3 Quy trình sử dụng
+---
+
+## 2. Quy Trình Sử Dụng
 
 ```
 Bước 1: Kỹ thuật viên phát hiện lỗi máy
     ↓
 Bước 2: Vào hệ thống → Chọn Tầng → Chọn Máy
     ↓
-Bước 3: Xem danh sách lỗi đã có hoặc thêm lỗi mới
+Bước 3: Xem danh sách lỗi hoặc mô tả lỗi mới
     ↓
 Bước 4: AI tự động tìm các ca lỗi tương tự trong lịch sử
     ↓
-Bước 5: AI đề xuất giải pháp với các bước kiểm tra (A, B, C...)
+Bước 5: AI đề xuất giải pháp với checklist (A, B, C...)
     ↓
-Bước 6: Kỹ thuật viên áp dụng và đánh dấu checklist
+Bước 6: Kỹ thuật viên thực hiện theo checklist
     ↓
-Bước 7: Đánh giá độ hiệu quả (Thành công/Không thành công)
+Bước 7: Đánh giá kết quả (Thành công / Chưa thành công)
     ↓
-Bước 8: AI học từ phản hồi để cải thiện lần sau
+Bước 8: AI ghi nhận phản hồi để cải thiện lần sau
 ```
-
----
-
-## 2. Công Nghệ Sử Dụng
-
-| Thành phần | Công nghệ | Mục đích |
-|------------|-----------|----------|
-| **Frontend** | React + Next.js | Giao diện web |
-| **Backend** | Node.js / FastAPI | API server |
-| **Database** | PostgreSQL | Lưu trữ dữ liệu |
-| **Vector DB** | ChromaDB | Tìm kiếm tương đồng |
-| **AI/ML** | Python + RAG | Xử lý ngôn ngữ tự nhiên |
-| **LLM** | Ollama (Local) | Sinh giải pháp AI |
-| **Embeddings** | sentence-transformers | Chuyển text thành vector |
-| **Full-text Search** | PostgreSQL FTS | Tìm kiếm toàn văn |
-| **Cache** | Redis | Tăng tốc độ |
-| **Ngôn ngữ** | VI/EN/JP | Đa ngôn ngữ |
-
-**Quan trọng:** Tất cả chạy **LOCAL** - Không cần kết nối API bên ngoài, không phụ thuộc internet.
 
 ---
 
 ## 3. Phân Loại Lỗi Hỗ Trợ
 
 ### 3.1 Theo thiết bị
-- ✅ Biến tần (Inverter)
-- ✅ PLC (Programmable Logic Controller)
-- ✅ Động cơ (Motor)
-- ✅ Cảm biến (Sensor)
-- ✅ Bơm (Pump)
-- ✅ Hệ thống điện
-- ✅ Hệ thống cơ khí
+- Biến tần (Inverter)
+- PLC (Programmable Logic Controller)
+- Động cơ (Motor)
+- Cảm biến (Sensor)
+- Bơm (Pump)
+- Hệ thống điện
+- Hệ thống cơ khí
+- Và các thiết bị khác theo yêu cầu
 
 ### 3.2 Theo mức độ nghiêm trọng
-| Mức độ | Màu | Mô tả | Ví dụ |
-|--------|-----|-------|-------|
-| 🔴 Critical | Đỏ | Dừng sản xuất ngay | Lỗi biến tần, mất điện |
-| 🟡 High | Vàng | Cần xử lý trong 1-2h | Quá nhiệt, rung động |
-| 🟠 Medium | Cam | Xử lý trong ca làm việc | Cảnh báo bảo trì |
-| 🟢 Low | Xanh | Lên lịch bảo trì | Hiệu suất giảm nhẹ |
+| Mức độ | Mô tả | Ví dụ |
+|--------|-------|-------|
+| Critical (Nghiêm trọng) | Dừng sản xuất, cần xử lý ngay | Lỗi biến tần, mất điện |
+| High (Cao) | Cần xử lý trong 1-2 giờ | Quá nhiệt, rung động bất thường |
+| Medium (Trung bình) | Xử lý trong ca làm việc | Cảnh báo bảo trì |
+| Low (Thấp) | Lên lịch bảo trì | Hiệu suất giảm nhẹ |
 
 ---
 
 ## 4. Tính Năng Chính
 
-### 4.1 Quản lý dữ liệu
-- Import dữ liệu từ file Excel
+### 4.1 Quản lý dữ liệu lỗi
+- Import dữ liệu từ file Excel (không cần nhập tay)
 - Quản lý theo cấu trúc: Tầng → Máy → Lỗi
-- Lưu trữ giải pháp với checklist chi tiết
+- Lưu trữ giải pháp với checklist từng bước
 - Phân loại theo thiết bị và mức độ nghiêm trọng
 
-### 4.2 AI & Machine Learning
-- Tìm kiếm lỗi tương tự bằng Vector Search
-- Đề xuất giải pháp tự động bằng LLM
-- Hiển thị độ tin cậy (Confidence Score) cho mỗi đề xuất
-- Học tập từ phản hồi của kỹ thuật viên
-- Hỗ trợ đa ngôn ngữ (VI/EN/JP)
+### 4.2 AI hỗ trợ xử lý lỗi
+- Tìm kiếm lỗi tương tự trong lịch sử
+- Đề xuất giải pháp kèm độ tin cậy (VD: "95% phù hợp")
+- Hỗ trợ tìm kiếm bằng Tiếng Việt, Tiếng Anh, Tiếng Nhật
+- Càng sử dụng, AI càng đề xuất chính xác hơn
 
-### 4.3 Giao diện người dùng
-- Chọn nhanh Tầng/Máy
-- Tìm kiếm toàn văn (Full-text Search)
-- Hiển thị checklist từng bước (A, B, C...)
-- Đánh dấu hoàn thành từng bước
-- Đánh giá độ hiệu quả sau sửa chữa
+### 4.3 Giao diện sử dụng
+- Chọn nhanh Tầng/Máy bằng vài thao tác
+- Tìm kiếm lỗi bằng từ khóa
+- Hiển thị checklist từng bước rõ ràng
+- Đánh dấu hoàn thành từng bước khi sửa chữa
+- Đánh giá hiệu quả sau khi áp dụng giải pháp
 
-### 4.4 Báo cáo & Thống kê
-- Thống kê tần suất lỗi
+### 4.4 Báo cáo
+- Thống kê tần suất lỗi theo máy, theo tầng
 - Thời gian xử lý trung bình
-- Hiệu quả của AI (tỷ lệ thành công)
 - Xuất báo cáo Excel/PDF
 
 ---
 
 ## 5. Lợi Ích Dự Kiến
 
-- Giảm đáng kể thời gian tìm kiếm giải pháp xử lý lỗi
-- Nâng cao tỷ lệ sửa chữa thành công ngay lần đầu
-- Giảm thời gian downtime máy móc
-- Giảm chi phí đào tạo kỹ thuật viên mới nhờ knowledge base tập trung
-- Tập trung hóa kiến thức xử lý lỗi, tránh phụ thuộc vào cá nhân
+- **Giảm thời gian tìm giải pháp:** Từ tra tài liệu 15-30 phút xuống vài phút với AI
+- **Nâng cao tỷ lệ sửa đúng lần đầu:** AI đề xuất dựa trên các ca thành công trước đó
+- **Giảm thời gian dừng máy:** Xử lý nhanh hơn = máy hoạt động lại sớm hơn
+- **Không phụ thuộc cá nhân:** Kiến thức được lưu trữ tập trung, nhân viên mới vẫn tra cứu được
+- **Không phát sinh chi phí hàng tháng:** Hệ thống chạy local, không cần trả phí dịch vụ AI bên ngoài
 
 ---
 
 ## 6. Kế Hoạch Phát Triển
 
-### Giai đoạn 1: MVP
-- Database + API cơ bản
-- Web UI chọn Tầng/Máy/Xem lỗi
-- Import Excel
-- Setup Ollama LLM local
+### Giai đoạn 1: MVP (Sản phẩm cơ bản)
+- Hệ thống web tra cứu lỗi: Chọn Tầng → Máy → Xem lỗi → Xem giải pháp
+- Import dữ liệu từ Excel
+- Cài đặt AI trên server local
 
-### Giai đoạn 2: AI Integration
-- RAG pipeline (Retrieval + Generation)
-- Vector search đa ngôn ngữ
-- Feedback collection
-- Multi-language UI
+### Giai đoạn 2: Tích hợp AI nâng cao
+- AI tìm kiếm lỗi tương tự và đề xuất giải pháp
+- Hỗ trợ đa ngôn ngữ (VI/EN/JP)
+- Thu thập phản hồi từ kỹ thuật viên
+- AI tự cải thiện dựa trên phản hồi
 
-### Giai đoạn 3: Advanced
-- Mobile app (React Native)
-- Real-time notifications
-- Analytics dashboard
-- Hybrid search
-
-### Giai đoạn 4: Enterprise
-- SSO integration
-- Offline mode
-- Custom model fine-tuning
+### Giai đoạn 3: Mở rộng
+- Ứng dụng mobile cho kỹ thuật viên
+- Thông báo lỗi real-time
+- Dashboard thống kê nâng cao
 
 ---
 
-## 7. Yêu Cầu Phần Cứng (Server Local)
+## 7. Yêu Cầu Phần Cứng
+
+Hệ thống chạy trên **server nội bộ** của công ty, không cần cloud hay internet.
 
 | Thành phần | Tối thiểu | Khuyến nghị |
 |------------|-----------|-------------|
 | CPU | 4 cores | 8+ cores |
 | RAM | 8 GB | 16+ GB |
 | Ổ cứng | 50 GB SSD | 100+ GB SSD |
-| GPU | Không bắt buộc | 8+ GB VRAM (nhanh hơn) |
-| Hệ điều hành | Linux/Ubuntu | Ubuntu 22.04 LTS |
+| GPU | Không bắt buộc | Có GPU sẽ nhanh hơn |
+| Hệ điều hành | Linux/Windows/Mac | Ubuntu 22.04 LTS |
 
-**Lưu ý:** Có thể chạy trên máy tính cá nhân (Windows/Mac) cho testing.
-
----
-
-## 8. Yêu Cầu Hiệu Năng
-
-| Chỉ số | Mục tiêu | Ghi chú |
-|--------|----------|---------|
-| Tìm kiếm lỗi | < 500ms | Vector search + retrieval |
-| Phản hồi AI (LLM) | < 3s | Sinh giải pháp bằng LLM local |
-| Tải trang | < 2s | First contentful paint |
-| Người dùng đồng thời | 100+ | Cùng lúc trên hệ thống |
-| Uptime | 99.9% | Theo SLA |
+**Lưu ý:** Giai đoạn đầu có thể dùng PC/laptop để demo và test trước khi triển khai lên server chính thức.
 
 ---
 
-## 9. Chi Phí Dự Kiến
+## 8. Chi Phí
 
-### Chi phí một lần (Development)
+### Chi phí phát triển (một lần)
 - Phát triển hệ thống: Theo báo giá dự án
-- Setup server: 1-2 ngày công
+- Cài đặt & cấu hình server: Bao gồm trong dự án
 
-### Chi phí vận hành (Hàng năm)
-| Hạng mục | Chi phí | Ghi chú |
-|----------|---------|---------|
-| Phần mềm | **$0** | Open source (MIT License) |
-| Server | Theo cấu hình | Chạy local, không cần cloud |
-| API bên ngoài | **$0** | Không cần OpenAI, etc. |
-| Bảo trì | Theo hợp đồng | Cập nhật, hỗ trợ |
-
-**Ưu điểm:** Không phụ thuộc vào dịch vụ cloud, không có chi phí API recurring.
+### Chi phí vận hành (hàng tháng/năm)
+| Hạng mục | Chi phí |
+|----------|---------|
+| Phần mềm (license) | **Không phát sinh** - sử dụng open source |
+| Phí API / Cloud | **Không phát sinh** - chạy hoàn toàn local |
+| Server | Khách hàng tự chuẩn bị hoặc theo thỏa thuận |
+| Bảo trì & hỗ trợ | Theo hợp đồng bảo trì (nếu có) |
 
 ---
 
-## 10. Rủi Ro & Giải Pháp
+## 9. Rủi Ro & Giải Pháp
 
-| Rủi ro | Mức độ | Giải pháp |
-|--------|--------|-----------|
-| Thiếu dữ liệu train | Cao | Bắt đầu với rule-based, tích lũy dần |
-| Chất lượng data đầu vào | Trung bình | Validation + training người dùng |
-| Phần cứng không đủ mạnh | Trung bình | Tối ưu model hoặc nâng cấp RAM |
-| Người dùng không adopt | Trung bình | Training + gamification |
+| Rủi ro | Giải pháp |
+|--------|-----------|
+| Dữ liệu lỗi ban đầu chưa nhiều | Hệ thống vẫn hoạt động với dữ liệu ít, AI sẽ cải thiện khi có thêm dữ liệu |
+| Chất lượng dữ liệu đầu vào chưa đồng nhất | Cung cấp mẫu Excel chuẩn + hướng dẫn nhập liệu |
+| Nhân viên chưa quen sử dụng | Training trực tiếp + tài liệu hướng dẫn bằng tiếng Việt |
 
 ---
 
-## 11. Cam Kết & Bảo Hành
+## 10. Hỗ Trợ Sau Triển Khai
 
-- ✅ Bảo hành phần mềm: 12 tháng
-- ✅ Hỗ trợ kỹ thuật: Theo SLA
-- ✅ Training người dùng: Bao gồm trong dự án
-- ✅ Documentation đầy đủ
+- Hỗ trợ kỹ thuật trong thời gian bảo hành (theo hợp đồng)
+- Hướng dẫn sử dụng cho người dùng
+- Tài liệu vận hành đầy đủ bằng tiếng Việt
+- Hỗ trợ từ xa qua email/chat khi phát sinh vấn đề
 
 ---
 
